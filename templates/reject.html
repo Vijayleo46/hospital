@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Approve or Reject Shop</title>
+    <script>
+        function validateForm(event) {
+            const clickedButton = event.submitter.value;
+
+            if (clickedButton !== 'approve' && clickedButton !== 'reject') {
+                alert("Please select a valid action.");
+                event.preventDefault();
+                return false;
+            }
+
+            const confirmMsg = clickedButton === 'approve'
+                ? "Are you sure you want to approve this shop?"
+                : "Are you sure you want to reject this shop?";
+
+            if (!confirm(confirmMsg)) {
+                event.preventDefault();
+                return false;
+            }
+        }
+    </script>
+</head>
+<body>
+    <h2>Approve or Reject: {{ shop.shop_name }}</h2>
+    <form method="POST" onsubmit="validateForm(event)">
+        {% csrf_token %}
+        <button type="submit" name="action" value="approve">Approve</button>
+        <button type="submit" name="action" value="reject">Reject</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,78 @@
+{%include 'shopheader.html'%}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Products Rating</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #f9f9f9;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background-color: #333;
+            color: white;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        form {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        select, button {
+            padding: 10px;
+            font-size: 16px;
+            margin: 5px;
+        }
+
+        .error {
+            color: red;
+            font-size: 14px;
+        }
+    </style>
+   
+</head>
+<body>
+
+    <h2>Products Sorted </h2>
+
+
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Ratings</th>
+            <th>Review</th>
+            <th>Date</th>
+        </tr>
+        {% for i in c%}
+        <tr>
+          <td>{{i.id}}</td>
+            <td>{{i.ratings }}</td>
+            <td>{{i.review }}</td>
+            <td>{{i.date}}</td>
+            <td><a href="chattouser/{{i.id}}">Chat</a></td>
+            
+        </tr>
+        {% endfor %}
+    </table>
+
+</body>
+</html>
+{%include 'footer.html'%}

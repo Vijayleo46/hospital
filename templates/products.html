@@ -1,0 +1,151 @@
+{%include 'adminheader.html'%}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Shop - Medical Equipments</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f9;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #2c3e50;
+    }
+
+    .search-bar {
+      max-width: 400px;
+      margin: 0 auto 30px auto;
+      display: flex;
+      gap: 10px;
+    }
+
+    .search-bar input {
+      flex: 1;
+      padding: 10px;
+      font-size: 14px;
+    }
+
+    .search-bar button {
+      padding: 10px 15px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .search-bar button:hover {
+      background-color: #0056b3;
+    }
+
+    .shop-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .shop-card {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .shop-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .shop-card img {
+      max-width: 100%;
+      height: 160px;
+      object-fit: contain;
+      margin-bottom: 15px;
+    }
+
+    .shop-card h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .shop-card p {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 10px;
+    }
+
+    .price {
+      color: #007bff;
+      font-weight: bold;
+      font-size: 16px;
+      margin-bottom: 15px;
+    }
+
+    .btn-shop {
+      padding: 10px 20px;
+      background-color: #28a745;
+      color: white;
+      border-radius: 5px;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .btn-shop:hover {
+      background-color: #218838;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Products Medical Equipments</h1>
+
+ 
+
+  <!-- 🛒 Product Grid -->
+<div class="container my-4">
+  <div class="row g-4" id="productGrid">
+    {% for i in p %}
+    <div class="col-sm-6 col-md-4 col-lg-3">
+      <div class="card h-100 shadow-sm">
+        <img src="/static/media/{{i.image}}" class="card-img-top img-fluid" alt="{{i.product_name}}" style="height: 200px; object-fit: contain;">
+        <div class="card-body text-center">
+          <h5 class="card-title">{{i.product_name}}</h5>
+          <p class="card-text">{{i.details}}</p>
+          <div class="fw-bold text-success mb-2">₹{{i.price}}</div>
+          <p class="text-muted small mb-1">{{i.shop_id.shop_name}}</p>
+          <p class="text-muted small">{{i.type_id.type_name}}</p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+  <!-- ✅ JavaScript Validation -->
+  <script>
+    function validateSearch() {
+      const input = document.getElementById("searchInput").value.trim();
+      if (input === "") {
+        alert("Please enter a product name to search.");
+      } else {
+        // Add actual search logic if needed.
+        alert("Searching for: " + input);
+        // Optional: redirect to search result or filter DOM items here
+      }
+    }
+  </script>
+
+</body>
+
+</html>
+{%include 'footer.html'%}

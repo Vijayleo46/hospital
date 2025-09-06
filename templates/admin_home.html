@@ -1,0 +1,102 @@
+{%include 'adminheader.html'%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Medical Equipment Admin - Home</title>
+  <style>
+    body {
+      background-image: url("https://wallpaperaccess.com/full/5301521.jpg");
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f6f9;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: left;
+      min-height: 100vh;
+    }
+
+    <!-- .container {
+      text-align: center;
+      max-width: 800px;
+      background-color: #fff;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+    } -->
+
+    h1 {
+      font-size: 40px;
+      color: #0d47a1;
+      margin-bottom: 10px;
+    }
+
+    .caption {
+      font-size: 18px;
+      color: #666;
+      margin-bottom: 30px;
+    }
+
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      gap: 15px;
+    }
+
+    .links a {
+      color: #0d47a1;
+      text-decoration: none;
+      font-size: 18px;
+      border: 2px solid #0d47a1;
+      padding: 10px 24px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .links a:hover {
+      background-color: #0d47a1;
+      color: white;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        width: 90%;
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 32px;
+      }
+
+      .links a {
+        font-size: 16px;
+        padding: 8px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="">
+    <h1>🩺 Welcome, Admin</h1>
+    <p class="caption">This is the control panel for managing all medical equipment and operations.</p>
+
+    <div class="links">
+      <a href="/products">🏥 Products</a>
+      <a href="/viewshop">🚚 Shops</a>
+      <a href="/viewstocks">📦 Stocks</a>
+      <a href="/viewcustomer">👥Customers</a>
+      <a href="/type">🛠 Manage Types</a>
+      <a href="/delivery">📊 Delivery boys</a>
+      <a href="/viewcomplaint">🛠 Complaints</a>
+      <a href="/logout1">🚪 Logout</a>
+    </div>
+  </div>
+
+</body>
+</html>
+{%include 'footer.html'%}

@@ -1,0 +1,109 @@
+{%include 'deliveryheader.html'%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>View Assigned Orders</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f2f4f8;
+      padding: 30px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 25px;
+    }
+
+    table {
+      width: 90%;
+      margin: auto;
+      border-collapse: collapse;
+      background: #ffffff;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    th, td {
+      padding: 12px;
+      border: 1px solid #ddd;
+      text-align: center;
+    }
+
+    th {
+      background-color: #3498db;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    .status {
+      font-weight: bold;
+      color: #2c3e50;
+    }
+
+    button {
+      padding: 6px 12px;
+      background-color: #27ae60;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button a {
+      color: white;
+      text-decoration: none;
+    }
+
+    button:hover {
+      background-color: #219150;
+    }
+  </style>
+
+  <script>
+    function confirmPickup(event, url) {
+      event.preventDefault(); // Prevent direct navigation
+
+      const confirmAction = confirm("Are you sure you want to mark this order as picked up?");
+      if (confirmAction) {
+        window.location.href = url; // Continue to picked up
+      }
+    }
+  </script>
+</head>
+<body>
+
+  <h2>Assigned Orders</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Shop Name</th>
+        <th>Place</th>
+        <th>Landmark</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for a in aorders %}
+      <tr>
+        <td>{{ a.order_master.shop.shop_name }}</td>
+        <td>{{ a.order_master.shop.place }}</td>
+        <td>{{ a.order_master.shop.landmark }}</td>
+        <td class="status">{{ a.status}}</td>
+        <td>
+          <button onclick="confirmPickup(event, '/pickedup/{{ a.id }}')">Picked Up</button>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+</body>
+</html>
+{%include 'footer.html'%}

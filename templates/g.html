@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>View Assigned Orders</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f2f4f8;
+      padding: 30px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 25px;
+    }
+
+    table {
+      width: 90%;
+      margin: auto;
+      border-collapse: collapse;
+      background: #ffffff;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    th, td {
+      padding: 12px;
+      border: 1px solid #ddd;
+      text-align: center;
+    }
+
+    th {
+      background-color: #3498db;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    .status {
+      font-weight: bold;
+      color: #2c3e50;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Assigned Orders</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Shop Name</th>
+        <th>Place</th>
+        <th>landmark</th>
+        <th>Pro</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for o in aorders %}
+      {%if o.status == 'assigned'%}
+      <tr>
+        <td>{{ o.order_master.shop.shop_name }}</td>
+        <td>{{ o.delivery_boy.first_name }} {{ o.delivery_boy.last_name }}</td>
+        <td>{{ o.delivery_boy.phone }}</td>
+        <td>{{ o.order_master.orderdetails.product.product_name }}</td>
+
+        <td class="status">{{ order.status|capfirst }}</td>
+        <td>
+          {% if o.status == "picked up" %}
+            <span class="status-picked">Picked Up</span>
+          {% elif o.status == "delivered" %}
+            <span class="status-delivered">Delivered</span>
+          {% else %}
+            {{ o.status|capfirst }}
+          {% endif %}
+        </td>
+     <td>
+          {% if o.status == "assigned" %}
+            <a href="verified/{{o.order.id}}" class="btn-pickup">Pick Up</a>
+          {% elif o.status == "picked up" %}
+            In Transit
+          {% elif o.status == "delivered" %}
+            ✔ Done
+          {% endif %}
+        </td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="5">No assigned orders found.</td>
+    </tr>
+    {%endif%}
+      {% endfor %}
+    </tbody>
+  </table>
+
+</body>
+</html>

@@ -1,0 +1,255 @@
+{%include 'adminheader.html'%}
+<br><br>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Delivery Boy Registration</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f4f8;
+      margin: 0;
+      padding: 30px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+
+    form {
+      max-width: 600px;
+      margin: auto;
+      background-color: #fff;
+      padding: 25px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .error-message {
+      color: red;
+      font-size: 13px;
+      margin-top: 4px;
+    }
+
+    input[type="submit"] {
+      margin-top: 20px;
+      background-color: #4CAF50;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 4px;
+      width: 100%;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #45a049;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 40px;
+      background-color: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    th, td {
+      padding: 12px 15px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+    }
+
+    th {
+      background-color: #4CAF50;
+      color: white;
+      font-weight: bold;
+    }
+
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    .table-title {
+      text-align: center;
+      margin-top: 50px;
+      font-size: 24px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Delivery Boy Registration</h2>
+<form method="POST" onsubmit="return validateForm()">
+  {% csrf_token %}
+  {% if  de %}
+
+  <label for="first_name">First Name</label>
+  <input type="text" id="first_name" name="first_name" value="{{de.first_name|default:''}}" required>
+  <div class="error-message" id="first_name_error"></div>
+
+  <label for="last_name">Last Name</label>
+  <input type="text" id="last_name" name="last_name" value="{{de.last_name|default:''}}" required>
+  <div class="error-message" id="last_name_error"></div>
+
+  <label for="house_name">House Name</label>
+  <input type="text" id="house_name" name="house_name" value="{{de.house_name|default:''}}" required>
+  <div class="error-message" id="house_name_error"></div>
+
+  <label for="phone">Phone</label>
+  <input type="tel" id="phone" name="phone" value="{{de.phone|default:''}}" required>
+  <div class="error-message" id="phone_error"></div>
+
+  <label for="pincode">Pincode</label>
+  <input type="text" id="pincode" name="pincode" value="{{de.pincode|default:''}}" required>
+  <div class="error-message" id="pincode_error"></div>
+
+  <label for="place">Place</label>
+  <input type="text" id="place" name="place" value="{{de.place|default:''}}" required>
+  <div class="error-message" id="place_error"></div>
+
+  <label for="email">Email</label>
+  <input type="email" id="email" name="email" value="{{de.email|default:''}}" required>
+  <div class="error-message" id="email_error"></div>
+    <input type="submit" value="Update" name="edit">
+
+
+  {% else %}
+  <label for="first_name">First Name</label>
+  <input type="text" id="first_name" name="first_name" value="{{de.first_name|default:''}}" required>
+  <div class="error-message" id="first_name_error"></div>
+
+  <label for="last_name">Last Name</label>
+  <input type="text" id="last_name" name="last_name" value="{{de.last_name|default:''}}" required>
+  <div class="error-message" id="last_name_error"></div>
+
+  <label for="house_name">House Name</label>
+  <input type="text" id="house_name" name="house_name" value="{{de.house_name|default:''}}" required>
+  <div class="error-message" id="house_name_error"></div>
+
+  <label for="phone">Phone</label>
+  <input type="tel" id="phone" name="phone" value="{{de.phone|default:''}}" required>
+  <div class="error-message" id="phone_error"></div>
+
+  <label for="pincode">Pincode</label>
+  <input type="text" id="pincode" name="pincode" value="{{de.pincode|default:''}}" required>
+  <div class="error-message" id="pincode_error"></div>
+
+  <label for="place">Place</label>
+  <input type="text" id="place" name="place" value="{{de.place|default:''}}" required>
+  <div class="error-message" id="place_error"></div>
+
+  <label for="email">Email</label>
+  <input type="email" id="email" name="email" value="{{de.email|default:''}}" required>
+  <div class="error-message" id="email_error"></div>
+
+  <label for="username">Username</label>
+  <input type="text" id="username" name="username" required>
+  <div class="error-message" id="username_error"></div>
+
+  <label for="password">Password</label>
+  <input type="password" id="password" name="password" required>
+  <div class="error-message" id="password_error"></div>
+  <input type="submit" value="Register" name="submit">
+
+  {% endif %}
+
+</form>
+
+<h2 class="table-title">Registered Delivery Boys</h2>
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>House Name</th>
+      <th>Pincode</th>
+      <th>Phone</th>
+      <th>Place</th>
+      <th>Email</th>
+      <th>Edit</th>
+      <th>Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for i in d %}
+    <tr>
+      <td>{{ i.id }}</td>
+      <td>{{ i.first_name }}</td>
+      <td>{{ i.last_name }}</td>
+      <td>{{ i.house_name }}</td>
+      <td>{{ i.pincode }}</td>
+      <td>{{ i.phone }}</td>
+      <td>{{ i.place }}</td>
+      <td>{{ i.email }}</td>
+      <td><a href="/dedit/{{i.id}}">Update</a></td>
+      <td><a href="/ddelete/{{i.id}}">Delete</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<script>
+function validateForm() {
+  let valid = true;
+  let firstInvalid = null;
+
+  const get = id => document.getElementById(id);
+  const val = id => get(id)?.value.trim();
+  const err = (id, msg) => {
+    get(id + '_error').innerText = msg;
+    if (valid) firstInvalid = id;
+    valid = false;
+  };
+  const clr = id => get(id + '_error').innerText = "";
+
+  if (val('first_name').length < 2) err('first_name', "Enter at least 2 characters"); else clr('first_name');
+  if (val('last_name').length < 2) err('last_name', "Enter at least 2 characters"); else clr('last_name');
+  if (val('house_name').length < 2) err('house_name', "Enter a valid house name"); else clr('house_name');
+  if (!/^\d{6}$/.test(val('pincode'))) err('pincode', "Enter 6-digit pincode"); else clr('pincode');
+  if (!/^\d{10}$/.test(val('phone'))) err('phone', "Enter 10-digit phone"); else clr('phone');
+  if (val('place').length < 2) err('place', "Enter a valid place"); else clr('place');
+  if (!/^[\w.-]+@[\w.-]+\.\w{2,}$/.test(val('email'))) err('email', "Enter valid email"); else clr('email');
+
+  if (get('username')) {
+    if (val('username').length < 4) err('username', "Min 4 characters"); else clr('username');
+  }
+
+  if (get('password')) {
+    if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/.test(val('password')))
+      err('password', "Must contain A-Z, a-z, 0-9, symbol"); else clr('password');
+  }
+
+  if (!valid && firstInvalid) get(firstInvalid).focus();
+  return valid;
+}
+</script>
+
+</body>
+</html>
+{%include 'footer.html'%}

@@ -1,0 +1,162 @@
+{%include 'adminheader.html'%}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>View Customers - Admin</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f6f9;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #1866da;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+
+    .container {
+      padding: 30px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      margin-top: 20px;
+    }
+
+    th,
+    td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #ccc;
+    }
+
+    th {
+      background-color: #0d47a1;
+      color: white;
+    }
+
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    input[type="text"] {
+      width: 300px;
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      margin-right: 10px;
+    }
+
+    input[type="submit"] {
+      padding: 8px 16px;
+      background-color: #0d47a1;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #002f6c;
+    }
+
+    .back-btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #0d47a1;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+    }
+
+    .back-btn:hover {
+      background-color: #002f6c;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>View Customers</h1>
+  </header>
+
+
+   
+
+    <div class="table-responsive shadow-sm rounded bg-white p-4">
+      <table class="table table-bordered table-hover align-middle mb-0">
+        <thead class="table-primary">
+        <tr>
+         <th scope="col">ID</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">House Name</th>
+            <th scope="col">Pincode</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Place</th>
+            <th scope="col">Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for i in c %}
+        <tr>
+          <td>{{ i.id }}</td>
+          <td>{{ i.first_name }}</td>
+          <td>{{ i.last_name }}</td>
+          <td>{{ i.house_name }}</td>
+          <td>{{ i.pincode }}</td>
+          <td>{{ i.phone }}</td>
+          <td>{{ i.place }}</td>
+          <td>{{ i.email }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="8" style="text-align: center; color: #777;">No customers available.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <a class="back-btn" href="/admin_home">← Back to Dashboard</a>
+  </div>
+
+  <script>
+    function validateSearch() {
+      const input = document.getElementById('searchInput').value.trim();
+      if (input.length === 0) {
+        alert('Please enter a search term.');
+        return false; // Prevent form submission
+      }
+      if (input.length < 3) {
+        alert('Search term must be at least 3 characters long.');
+        return false;
+      }
+      return true; // Allow form submission
+    }
+  </script>
+
+</body>
+
+</html>
+{%include 'footer.html'%}

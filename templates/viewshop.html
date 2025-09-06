@@ -1,0 +1,146 @@
+{%include 'adminheader.html'%}
+<br><br><br>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Medical Shops in Kochi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f9;
+      margin: 0;
+      padding: 30px;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #2c3e50;
+    }
+
+    .shop-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+    }
+
+    .shop-card {
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+
+    .shop-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+
+    .shop-name {
+      font-size: 20px;
+      font-weight: bold;
+      color: #007bff;
+      margin-bottom: 10px;
+    }
+
+    .shop-info {
+      font-size: 14px;
+      margin-bottom: 5px;
+      line-height: 1.5;
+    }
+
+    .action-buttons {
+      margin-top: 15px;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 5px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .btn-accept {
+      background-color: #28a745;
+      color: white;
+    }
+
+    .btn-reject {
+      background-color: #dc3545;
+      color: white;
+    }
+
+    .status {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Medical Shops in Kochi</h1>
+
+
+<div class="container my-5">
+  <h2 class="text-center mb-4">Shop List</h2>
+
+  <div class="row g-4">
+    {% for i in s %}
+    <div class="col-md-6 col-lg-4">
+      <div class="card h-100 shadow-sm border-0">
+        <div class="card-body">
+          <h5 class="card-title text-primary">{{ i.name }}</h5>
+          <p class="mb-1"><strong>Place:</strong> {{ i.place }}</p>
+          <p class="mb-1"><strong>Landmark:</strong> {{ i.landmark }}</p>
+          <p class="mb-1"><strong>Phone:</strong> {{ i.phone }}</p>
+          <p class="mb-1"><strong>Email:</strong> {{ i.email }}</p>
+            <p class="mb-3">
+              <strong>Status:</strong>
+              {% if i.status == 'accepted' %}
+                <span class="badge bg-success">{{ i.status }}</span>
+              {% elif i.status == 'rejected' %}
+                <span class="badge bg-danger">{{ i.status }}</span>
+              {% else %}
+                <span class="badge bg-secondary">Pending</span>
+              {% endif %}
+            </p>
+
+          <div class="d-flex gap-2">
+            {% if i.status == 'accepted' %}
+              <a href="/rejected/{{ i.id }}" class="btn btn-outline-danger btn-sm w-100">Reject</a>
+            {% elif i.status == 'rejected' %}
+              <a href="/saccepted/{{ i.id }}" class="btn btn-outline-success btn-sm w-100">Accept</a>
+            {% else %}
+              <a href="/saccepted/{{ i.id }}" class="btn btn-success btn-sm w-100">Accept</a>
+              <a href="/rejected/{{ i.id }}" class="btn btn-danger btn-sm w-100">Reject</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+  <script>
+    function setStatus(button, statusText) {
+      const card = button.closest('.shop-card');
+      const statusDiv = card.querySelector('.status');
+      statusDiv.textContent = "Status: " + statusText;
+    }
+  </script>
+
+</body>
+</html>
+{%include 'footer.html'%}

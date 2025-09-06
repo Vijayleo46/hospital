@@ -1,0 +1,107 @@
+{%include 'userheader.html'%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Make Payment</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f2f5;
+      padding: 20px;
+    }
+    .container {
+      max-width: 500px;
+      margin: auto;
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 8px;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button, a.payment-btn {
+      width: 100%;
+      padding: 10px;
+      background-color: #27ae60;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      text-align: center;
+      display: inline-block;
+      text-decoration: none;
+      margin-top: 10px;
+    }
+    button:hover, a.payment-btn:hover {
+      background-color: #1e8449;
+    }
+    .error {
+      color: red;
+      font-size: 14px;
+      margin-top: -15px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Make Payment</h2>
+
+  <form id="paymentForm" onsubmit="return validateForm()">
+    <label for="paymentMethod">Payment Method</label>
+    <select id="paymentMethod" required>
+      <option value="">-- Select Method --</option>
+      <option value="Credit Card">Credit Card</option>
+      <option value="UPI">UPI</option>
+      <option value="Net Banking">Net Banking</option>
+    </select>
+    <div id="error-msg" class="error"></div>
+
+    <table border="1" width="100%" style="margin-top: 20px;">
+      <tr>
+        <th>Amount</th>
+  
+      </tr>
+      {% for i in a %}
+      <tr>
+        <td>{{ i.orderdetails.amount }}</td>
+        <td>
+          <a href="/userpayment/{{i.id}}" class="payment-btn" onclick="return validateForm()">Pay Now</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </form>
+</div>
+
+<script>
+  function validateForm() {
+    const method = document.getElementById("paymentMethod").value;
+    const errorMsg = document.getElementById("error-msg");
+    if (method === "") {
+      errorMsg.innerText = "Please select a payment method before proceeding.";
+      return false; // prevent submission
+    }
+    errorMsg.innerText = ""; // clear error
+    return true; // allow link click
+  }
+</script>
+
+</body>
+</html>

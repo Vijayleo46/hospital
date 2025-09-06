@@ -1,0 +1,109 @@
+{%include 'userheader.html'%}
+<br><br><br><br><br><br><br><br><br><br>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Product Ratings</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f7f9fc;
+      padding: 30px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 25px;
+    }
+
+    table {
+      width: 90%;
+      margin: auto;
+      border-collapse: collapse;
+      background: #fff;
+      box-shadow: 0 0 10px rgba(0,0,0,0.08);
+    }
+
+    th, td {
+      padding: 12px;
+      border: 1px solid #ddd;
+      text-align: center;
+    }
+
+    th {
+      background-color: #3498db;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    .stars {
+      color: #f1c40f;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Product Ratings & Reviews</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>User</th>
+        <th>Product</th>
+        <th>Rating</th>
+        <th>Review</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in rate %}
+      <tr>
+        <td>{{ r.user_id }}</td>
+        <td>{{ r.product.product_name }}</td>
+        <td>
+          <span class="stars">
+            {% for i in "12345"|slice:":r.ratings"|make_list %}
+              ★
+            {% endfor %}
+            {% for i in "12345"|slice:"r.ratings:"|make_list %}
+              ☆
+            {% endfor %}
+          </span>
+          ({{ r.ratings }}/5)
+        </td>
+        <td>{{ r.review }}</td>
+        <td>{{ r.date }}</td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="5">No ratings available.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <!-- JavaScript Validation -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const forms = document.querySelectorAll("form");
+
+      forms.forEach(function (form) {
+        form.addEventListener("submit", function (e) {
+          const textarea = form.querySelector("textarea[name='reply']");
+          if (textarea && textarea.value.trim() === "") {
+            alert("Reply cannot be empty!");
+            textarea.focus();
+            e.preventDefault();
+          }
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
+{%include 'footer.html'%}

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+        }
+        .product-container {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+        .product-item {
+            border: 1px solid #ccc;
+            padding: 15px;
+            width: 300px;
+            margin: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        .product-image img {
+            width: 100%;
+            height: auto;
+            border: 1px solid #ccc;
+            padding: 5px;
+        }
+        .product-info h3 {
+            margin-top: 10px;
+        }
+        .price {
+            color: green;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+        .form-container {
+            margin-top: 15px;
+        }
+        .form-container input[type="number"] {
+            width: 60px;
+            padding: 5px;
+            margin-right: 10px;
+        }
+        .form-container button {
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        function validateForm(event, productId) {
+            const qtyInput = document.getElementById('qty-' + productId);
+            const qty = parseInt(qtyInput.value);
+
+            if (isNaN(qty) || qty <= 0) {
+                alert("Please enter a valid quantity (greater than 0).");
+                qtyInput.focus();
+                event.preventDefault(); // Prevent form submission
+                return false;
+            }
+
+            return true;
+        }
+    </script>
+</head>
+<body>
+
+    <h2>Product List</h2>
+
+    <div class="product-container">
+        {% for i in prods %}
+        <div class="product-item">
+            <div class="product-image">
+                <img src="{{ i.image.url }}" alt="{{ i.product_name }}">
+            </div>
+            <div class="product-info">
+                <h3>{{ i.product_name }}</h3>
+                <p><strong>Category:</strong> {{ i.type.type_name }}</p>
+                <p><strong>Shop:</strong> {{ i.shop.shop_name }}</p>
+                <p class="price"><strong>Price:</strong> ₹{{ i.price }}</p>
+                <p><strong>Description:</strong></p>
+                <p>{{ i.details }}</p>
+
+                <!-- Sample form with JavaScript validation -->
+                <div class="form-container">
+                    <form action="/addtocart/{{ i.id }}" method="post" onsubmit="return validateForm(event, '{{ i.id }}')">
+                        {% csrf_token %}
+                        <input type="number" name="quantity" id="qty-{{ i.id }}" placeholder="Qty">
+                        <button type="submit">Add to Cart</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>No products available.</p>
+        {% endfor %}
+    </div>
+
+</body>
+</html>

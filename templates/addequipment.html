@@ -1,0 +1,174 @@
+{%include 'adminheader.html'%}
+
+<br><br><br><br><br>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Manage Equipment Types - Admin</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f4f8;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      width: 80%;
+      margin: auto;
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #2c3e50;
+    }
+
+    .success-message {
+      text-align: center;
+      color: green;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    form {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 30px;
+      align-items: center;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #28a745;
+      border: none;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #218838;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 12px;
+      border: 1px solid #ddd;
+      text-align: center;
+    }
+
+    th {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .empty-msg {
+      text-align: center;
+      color: #999;
+      padding: 20px;
+    }
+
+    .type-name {
+      font-weight: bold;
+      color: #333;
+    }
+
+    .equipment-list {
+      color: #555;
+      font-size: 14px;
+    }
+
+    .add-multiple-info {
+      font-size: 12px;
+      color: #888;
+      margin-top: -20px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Manage Equipment Types</h2>
+
+    {% if success %}
+      <div class="success-message">{{ success }}</div>
+    {% endif %}
+
+
+    {%if n%}
+    <form method="POST" onsubmit="return validateTypes();">
+      {% csrf_token %}
+      <input type="text" name="name" id="" placeholder="Enter equipment types (comma-separated)" required value="{{n.type_name}}">
+      <button type="submit" name="edit" value="edit">Update</button>
+    </form>
+    {%else%}
+    <form method="POST" onsubmit="return validateTypes();">
+      {% csrf_token %}
+      <input type="text" name="name" id="" placeholder="Enter equipment types (comma-separated)" required>
+      <button type="submit" name="submit">Add Type</button>
+    </form>
+    {%endif%}
+
+    <table>
+      <tr>
+        <th>ID</th>
+        <th>Type Name</th>
+        <th colspan="2">Action</th>
+      </tr>
+      {% for type in e %}
+      <tr>
+        <td>{{ type.id }}</td>
+        <td class="type-name">{{ type.type_name }}</td>
+        <td><a href="/editt/{{type.id}}">Update</a></td>
+        <td><a href="/deletet/{{type.id}}">Delete</a></td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="3" class="empty-msg">No equipment types added yet.</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+
+  <script>
+    function validateTypes() {
+      const input = document.getElementById("typeInput").value.trim();
+
+      if (input === "") {
+        alert("Please enter at least one equipment type.");
+        return false;
+      }
+
+      const types = input.split(",");
+      for (let i = 0; i < types.length; i++) {
+        const type = types[i].trim();
+        if (!/^[A-Za-z\s]+$/.test(type)) {
+          alert("Each equipment type must contain only letters and spaces.");
+          return false;
+        }
+      }
+
+      return true;
+    }
+  </script>
+</body>
+</html>
+{%include 'footer.html'%}

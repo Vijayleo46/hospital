@@ -1,0 +1,93 @@
+{% include 'userheader.html' %}
+<br><br><br><br><br>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Cart</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: #f0f4f8;
+        }
+        .table-container {
+            margin-top: 40px;
+        }
+        .table th {
+            background-color: #0d6efd;
+            color: white;
+        }
+        .btn-payment {
+            background-color: #198754;
+            color: white;
+            font-weight: bold;
+        }
+        .btn-payment:hover {
+            background-color: #146c43;
+        }
+    </style>
+</head>
+
+
+<body>
+
+<div class="container table-container">
+    <h2 class="text-center mb-4 text-primary">🛒 Your Cart</h2>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover shadow">
+            <thead>
+                <tr>
+                    <th scope="col">Product</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in o %}
+                    {% if i.order_master.status != 'Payment Done' %}
+                        <tr>
+                            <td>{{ i.product.product_name }}</td>
+                            <td>{{ i.quantity }}</td>
+                            <td>₹{{ i.amount }}</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+
+                {% if om.status != 'Payment Done' %}
+                    <tr>
+                        <td colspan="3" class="text-center">
+                            <a href="/userpayment/{{ om.id }}" class="btn btn-payment w-50">💳 Pay Now</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="3" class="text-center text-muted">🛒 Cart is empty</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const links = document.querySelectorAll('.payment-link');
+
+        links.forEach(function (link) {
+            link.addEventListener('click', function (event) {
+                const row = link.closest('tr');
+                const quantity = parseInt(row.children[1].textContent);
+
+                if (isNaN(quantity) || quantity <= 0) {
+                    event.preventDefault();
+                    alert("Quantity must be greater than 0 to proceed with payment.");
+                }
+            });
+        });
+    });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+{% include 'footer.html' %}

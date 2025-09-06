@@ -1,0 +1,217 @@
+{% include 'publicheader.html' %}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shop Registration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #eef2f3;
+            padding: 50px;
+        }
+        .container {
+            width: 500px;
+            margin: auto;
+            background: #fff;
+            padding: 30px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 25px;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 15px;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="tel"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .error-message {
+            color: red;
+            font-size: 13px;
+            margin-top: 2px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 12px 20px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            width: 100%;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .shop-table {
+            margin-top: 40px;
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .shop-table th, .shop-table td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+        .shop-table th {
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Shop Registration</h2>
+    <form method="post" onsubmit="return validateShopForm()" novalidate>
+        {% csrf_token %}
+        <label>Shop Name</label>
+        <input type="text" name="shop_name" id="shop_name" required>
+        <div class="error-message" id="shop_name_error"></div>
+
+        <label>Place</label>
+        <input type="text" name="place" id="place" required>
+        <div class="error-message" id="place_error"></div>
+
+        <label>Landmark</label>
+        <input type="text" name="landmark" id="landmark" required>
+        <div class="error-message" id="landmark_error"></div>
+
+        <label>Phone</label>
+        <input type="tel" name="phone" id="phone" pattern="[0-9]{10}" required>
+        <div class="error-message" id="phone_error"></div>
+
+        <label>Email</label>
+        <input type="email" name="email" id="email" required>
+        <div class="error-message" id="email_error"></div>
+
+        <label>Username</label>
+        <input type="text" name="username" id="username" required>
+        <div class="error-message" id="username_error"></div>
+
+        <label>Password</label>
+        <input type="password" name="password" id="password" required>
+        <div class="error-message" id="password_error"></div>
+
+        <button type="submit" name="submit">Register</button>
+    </form>
+</div>
+
+<div class="container">
+    <h2>Registered Shops</h2>
+    <table class="shop-table">
+        <tr>
+            <th>Shop Name</th>
+            <th>Place</th>
+            <th>Phone</th>
+            <th>Status</th>
+        </tr>
+        {% for i in s %}
+        <tr>
+            <td>{{ i.shop_name }}</td>
+            <td>{{ i.place }}</td>
+            <td>{{ i.phone }}</td>
+            <td>{{ i.status }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<script>
+function showError(id, message) {
+    document.getElementById(id).innerText = message;
+}
+function clearError(id) {
+    document.getElementById(id).innerText = "";
+}
+function validateShopForm() {
+    let isValid = true;
+
+    const shopName = document.getElementById("shop_name").value.trim();
+    const place = document.getElementById("place").value.trim();
+    const landmark = document.getElementById("landmark").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value;
+
+    // Shop Name
+    if (shopName.length < 2) {
+        showError("shop_name_error", "Enter a valid shop name.");
+        isValid = false;
+    } else {
+        clearError("shop_name_error");
+    }
+
+    // Place
+    if (place.length < 2) {
+        showError("place_error", "Enter a valid place.");
+        isValid = false;
+    } else {
+        clearError("place_error");
+    }
+
+    // Landmark
+    if (landmark.length < 2) {
+        showError("landmark_error", "Enter a valid landmark.");
+        isValid = false;
+    } else {
+        clearError("landmark_error");
+    }
+
+    // Phone
+    if (!/^\d{10}$/.test(phone)) {
+        showError("phone_error", "Enter a valid 10-digit phone.");
+        isValid = false;
+    } else {
+        clearError("phone_error");
+    }
+
+    // Email
+    if (!/^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/.test(email)) {
+        showError("email_error", "Enter a valid email.");
+        isValid = false;
+    } else {
+        clearError("email_error");
+    }
+
+    // Username
+    if (username.length < 4) {
+        showError("username_error", "Minimum 4 characters required.");
+        isValid = false;
+    } else {
+        clearError("username_error");
+    }
+
+    // Password
+    if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/.test(password)) {
+        showError("password_error", "Min 6 chars, include A-Z, a-z, 0-9, symbol.");
+        isValid = false;
+    } else {
+        clearError("password_error");
+    }
+
+    return isValid;
+}
+</script>
+
+</body>
+</html>
+
+
+{%include 'footer.html'%}

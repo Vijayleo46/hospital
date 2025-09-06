@@ -1,0 +1,94 @@
+{%include 'userheader.html'%}
+{%include 'footer.html'%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>User Home - Medical </title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f0f4f8;
+    }
+
+    header {
+      background-color: #1976d2;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+
+    .container {
+      padding: 40px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+    }
+
+    .card {
+      background: white;
+      width: 220px;
+      height: 150px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      transition: 0.3s;
+    }
+
+    .card a {
+      text-decoration: none;
+      color: #1976d2;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Welcome</h1>
+  <div><a href="/logout3">Logout</a></div>
+
+</header>
+
+<div class="container">
+  <div class="card"><a href="/shop1">View Shop</a></div>
+  <!-- <div class="card"><a href="/view_products">View Products</a></div> -->
+  <!-- <div class="card"><a href="/chats">Chats</a></div> -->
+  <!-- <div class="card"><a href="/rating1">Sort By Rating</a></div> -->
+  <!-- <div class="card"><a href="/category">Categories</a></div> -->
+  <!-- <div class="card"><a href="/productdetails">Product Details</a></div> -->
+  <!-- <div class="card"><a href="/cart">Add to Cart</a></div> -->
+  <div class="card"><a href="/viewcart">Cart</a></div>
+  <!-- <div class="card"><a href="/makepay">payment</a></div> -->
+  <!-- <div class="card"><a href="/choose">choose delivery</a></div> -->
+  <div class="card"><a href="/my_orders">My Order</a></div>
+  <!-- <div class="card"><a href="/addrating">Add Rating</a></div> -->
+  <div class="card"><a href="/order_history">Order History</a></div>
+  <div class="card"><a href="/send_complaint">send complaint</a></div>
+  <!-- <div class="card"><a href="/view_reply">send reply</a></div> -->
+
+
+
+
+
+</div>
+
+</body>
+</html>

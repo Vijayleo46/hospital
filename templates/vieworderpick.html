@@ -1,0 +1,115 @@
+{%include 'deliveryheader.html'%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Picked-Up Orders</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f7f9;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 30px;
+    }
+
+    table {
+      width: 90%;
+      margin: 0 auto;
+      border-collapse: collapse;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    th, td {
+      padding: 12px 20px;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    button {
+      padding: 6px 14px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #218838;
+    }
+    /* Remove default link styling inside button */
+    button a {
+      color: white;
+      text-decoration: none;
+      display: block;
+    }
+    button a:hover {
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <h2>Picked-Up Orders</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Shop</th>
+        <th>Customer</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for o in orders %}
+        <tr>
+          <td>{{ o.order_master.shop.shop_name }}</td>
+          <td>{{ o.order_master.user.first_name}}</td>
+          <td>{{ o.status }}</td>
+          <td>
+            <form method="post">
+              {% csrf_token %}
+              <input type="hidden" name="status" value="delivered">
+              <button type="button" class="delivered-btn" data-url="/delivered/{{o.id}}">
+                <a href="/delivered/{{o.id}}">Delivered</a>
+              </button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+<script>
+  // Add confirmation before marking delivered
+  document.querySelectorAll('.delivered-btn').forEach(button => {
+    button.addEventListener('click', function(event) {
+      event.preventDefault();
+      const url = this.getAttribute('data-url');
+      if (confirm('Are you sure you want to mark this order as delivered?')) {
+        // Redirect to the delivered URL
+        window.location.href = url;
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
+{%include 'footer.html'%}

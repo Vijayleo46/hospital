@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Delivery</title>
+    <script>
+        function validateForm() {
+            const status = document.getElementById("status").value;
+            if (status === "") {
+                alert("Please select a delivery status.");
+                return false; // Prevent form submission
+            }
+            return true;
+        }
+    </script>
+</head>
+<body>
+    <h2>Update Delivery Status</h2>
+
+    <form method="post" action="" onsubmit="return validateForm()">
+        {% csrf_token %}
+
+        <table border="1">
+            <tr>
+                <th>Order ID</th>
+                <td>{{ delivery.order_master.id }}</td>
+            </tr>
+            <tr>
+                <th>Shop</th>
+                <td>{{ delivery.order_master.shop.shop_name }}</td>
+            </tr>
+            <tr>
+                <th>Product</th>
+                <td>{{ delivery.order_master.orderdetails.product.product_name }}</td>
+            </tr>
+            <tr>
+                <th>Current Status</th>
+                <td>{{ delivery.status }}</td>
+            </tr>
+            <tr>
+                <th>Update Status</th>
+                <td>
+                    <select name="status" id="status">
+                        <option value="">--Select--</option>
+                        <option value="delivered" {% if delivery.status == "delivered" %}selected{% endif %}>Delivered</option>
+                        <!-- Add more options as needed -->
+                    </select>
+                </td>
+            </tr>
+        </table>
+
+        <br>
+        <button type="submit">Update</button>
+        <a href="{% url 'view_pickedup_orders' %}">Back</a>
+    </form>
+</body>
+</html>

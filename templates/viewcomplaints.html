@@ -1,0 +1,73 @@
+{%include 'adminheader.html'%}
+<br><br><br><br>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Complaints</title>
+    <style>
+        table {
+            width: 90%;
+            border-collapse: collapse;
+            margin: 20px auto;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #999;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        form {
+            margin: 0;
+        }
+    </style>
+    <script>
+        function validateReplyForm(form) {
+            const reply = form.reply.value.trim();
+            if (reply === "") {
+                alert("Reply cannot be empty.");
+                return false;
+            }
+            if (reply.length < 3) {
+                alert("Reply must be at least 3 characters long.");
+                return false;
+            }
+            return true;
+        }
+    </script>
+</head>
+<body>
+    <h2 style="text-align: center;">View Complaints & Reply</h2>
+
+    <table>
+        <tr>
+            <th>User</th>
+            <th>Complaint</th>
+            <th>Date</th>
+            <th>Reply</th>
+        </tr>
+
+        {% for c in co %}
+        <tr>
+            <td>{{ c.id }}</td>
+            <td>{{ c.complaint }}</td>
+            <td>{{ c.date_time }}</td>
+            <td>
+                {% if c.reply == 'pending' %}
+                    <form method="post" onsubmit="return validateReplyForm(this);">
+                        {% csrf_token %}
+                        <input type="hidden" name="id" value="{{ c.id }}">
+                        <textarea name="reply" rows="2" cols="30" required></textarea><br>
+                        <button type="submit" name="submit">Send</button>
+                    </form>
+                {% else %}
+                {{ c.reply }}
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
+{%include 'footer.html'%}

@@ -1,0 +1,121 @@
+{%include 'userheader.html'%}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reply to Complaint</title>
+    <script>
+        function validateReplyForm() {
+            const reply = document.getElementById("reply").value.trim();
+            if (reply === "") {
+                alert("Reply cannot be empty.");
+                return false;
+            }
+            if (reply.length < 5) {
+                alert("Reply must be at least 5 characters long.");
+                return false;
+            }
+            return true;
+        }
+    </script>
+</head>
+<body>
+    <h2>Complaint Replies</h2>
+
+    <table border="1" cellpadding="10">
+        <tr>
+            <th>Complaint</th>
+            <th>Reply</th>
+            <th>Date</th>
+        </tr>
+        {% for c in complaints %}
+        <tr>
+            <td>{{ c.complaint }}</td>
+            <td>
+                {% if c.reply %}
+                    {{ c.reply }}
+                {% else %}
+                    <i>Pending...</i>
+                {% endif %}
+            </td>
+            <td>{{ c.date_time }}</td>
+            <td>
+                {% if not c.reply %}
+                <form method="POST" onsubmit="return validateReplyForm();">
+                    {% csrf_token %}
+                    <input type="hidden" name="complaint_id" value="{{ c.id }}">
+                    <textarea name="reply" id="reply" rows="2" cols="30" placeholder="Write reply..."></textarea><br>
+                    <input type="submit" value="Su">
+                </form>
+                {% else %}
+                    Replied
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Replies</title>
+</head>
+<body>
+    <h2>Complaint Replies</h2>
+
+    <table border="1" cellpadding="10">
+        <tr>
+            <th>Complaint</th>
+            <th>Reply</th>
+            <th>Date</th>
+        </tr>
+        {% for c in complaints %}
+        <tr>
+            <td>{{ c.complaint }}</td>
+            <td>
+                {% if c.reply %}
+                    {{ c.reply }}
+                {% else %}
+                    <i>Pending...</i>
+                {% endif %}
+            </td>
+            <td>{{ c.date_time }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <!-- Sample form (if needed) -->
+    <form onsubmit="return validateForm(this)">
+        <label for="details">Complaint Details:</label>
+        <input type="text" name="details" id="details"><br><br>
+
+        <label for="reply">Reply:</label>
+        <input type="text" name="reply" id="reply"><br><br>
+
+        <input type="submit" value="Submit">
+    </form>
+
+    <!-- JavaScript validation script -->
+    <script>
+        function validateForm(form) {
+            const details = form.querySelector('[name="details"]');
+            const reply = form.querySelector('[name="reply"]');
+            const nameRegex = /^[A-Za-z\s]+$/;
+
+            if (!details.value.trim() || !reply.value.trim()) {
+                alert("All fields are required.");
+                return false;
+            }
+
+            if (!nameRegex.test(details.value.trim())) {
+                alert("Complaint should contain only letters and spaces.");
+                details.focus();
+                return false;
+            }
+
+            return true;
+        }
+    </script>
+</body>
+</html>
+{%include 'footer.html'%}

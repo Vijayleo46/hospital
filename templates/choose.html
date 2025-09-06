@@ -1,0 +1,114 @@
+{%include 'userheader.html'%}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Choose Type of Delivery</title>
+  <style>
+    body {
+      font-family: Arial;
+      padding: 30px;
+      background-color: #f0f2f5;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+
+    th, td {
+      padding: 12px;
+      border: 1px solid #ccc;
+      text-align: center;
+    }
+
+    th {
+      background-color: #1976d2;
+      color: white;
+    }
+
+    select, button {
+      padding: 6px;
+      font-size: 14px;
+    }
+
+    button {
+      background-color: #2ecc71;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #27ae60;
+    }
+
+    .error {
+      color: red;
+      font-size: 13px;
+      margin-top: 5px;
+    }
+  </style>
+
+  <script>
+    function validateForm(form) {
+      const deliveryType = form.querySelector('select[name="delivery_type"]');
+      const error = form.querySelector('.error');
+      if (deliveryType.value === "") {
+        error.textContent = "Please select a delivery type.";
+        return false;
+      } else {
+        error.textContent = "";
+        return true;
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <h2>Assign Delivery Type</h2>
+
+  <table>
+    <tr>
+      <th>Order ID</th>
+      <th>User</th>
+      <th>Amount</th>
+      <th>Status</th>
+      <th>Choose Delivery Type</th>
+      <th>Action</th>
+    </tr>
+
+    {% for order in orders %}
+    <tr>
+      <td>{{ order.id }}</td>
+      <td>{{ order.order_master.user }}</td>
+      <td>₹{{ order.total }}</td>
+      <td>{{ order.status }}</td>
+      <td>
+        <form method="POST" onsubmit="return validateForm(this)">
+          {% csrf_token %}
+          <input type="hidden" name="order_id" value="{{ order.id }}">
+          <select name="delivery_type" required>
+            <option value="">-- Select --</option>
+            <option value="Standard">Standard</option>
+            <option value="Express">Express</option>
+            <option value="SameDay">Same Day</option>
+          </select>
+          <div class="error"></div>
+      </td>
+      <td>
+          <button type="submit" name="submit">Assign</button>
+        </form>
+      </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="6">No orders available.</td></tr>
+    {% endfor %}
+  </table>
+
+</body>
+</html>
+
+{%include 'footer.html'%}

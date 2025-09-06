@@ -1,0 +1,82 @@
+{%include 'userheader.html'%}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Available Products</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f4f8;
+      padding: 20px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .card {
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .card-body {
+      padding: 15px;
+    }
+
+    .card-body h3 {
+      margin: 0 0 10px;
+      font-size: 18px;
+      color: #0073e6;
+    }
+
+    .card-body p {
+      margin: 5px 0;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Available Medical Products</h2>
+
+  <div class="grid">
+    {% for product in ps %}
+      <div class="card">
+        <img src="/static/media/{{product.image }}" alt="{{ product.product_name }}">
+        <div class="card-body">
+          <h3>{{ product.product_name }}</h3>
+          <p><strong>Shop:</strong> {{ product.shop.shop_name }}</p>
+          <p><strong>Type:</strong> {{ product.type.type_name }}</p>
+          <p><strong>Details:</strong> {{ product.details }}</p>
+          <p><strong>Price:</strong> ₹{{ product.price }}</p>
+        </div>
+          <a href="/cart/{{product.id}}/{{product.price}}">add to cart</a> 
+      </div>
+
+    {% empty %}
+      <p>No products available.</p>
+    {% endfor %}
+  </div>
+
+</body>
+</html> 
+{%include 'footer.html'%}

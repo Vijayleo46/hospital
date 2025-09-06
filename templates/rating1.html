@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Products Sorted by Rating</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #f9f9f9;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background-color: #333;
+            color: white;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        form {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        select, button {
+            padding: 10px;
+            font-size: 16px;
+            margin: 5px;
+        }
+
+        .error {
+            color: red;
+            font-size: 14px;
+        }
+    </style>
+    <script>
+        function validateForm() {
+            const rating = document.getElementById("minRating").value;
+            const errorDiv = document.getElementById("errorMsg");
+
+            if (rating === "") {
+                errorDiv.textContent = "Please select a rating to filter.";
+                return false;
+            }
+
+            return true;
+        }
+    </script>
+</head>
+<body>
+
+    <h2>Products Sorted by Average Rating</h2>
+
+    <form method="GET" onsubmit="return validateForm()">
+        <label for="minRating">Filter by Minimum Rating:</label>
+        <select name="min_rating" id="minRating">
+            <option value="">-- Select Rating --</option>
+            <option value="1">1 or above</option>
+            <option value="2">2 or above</option>
+            <option value="3">3 or above</option>
+            <option value="4">4 or above</option>
+            <option value="5">5 only</option>
+        </select>
+        <button type="submit">Apply Filter</button>
+        <div class="error" id="errorMsg"></div>
+    </form>
+
+    <table>
+        <tr>
+            <th>Product Name</th>
+            <th>Details</th>
+            <th>Price</th>
+            <th>Average Rating</th>
+        </tr>
+        {% for product in products %}
+        <tr>
+            <td>{{ product.product_name }}</td>
+            <td>{{ product.details }}</td>
+            <td>{{ product.price }}</td>
+            <td>{{ product.avg_rating|default:"No Ratings" }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</body>
+</html>

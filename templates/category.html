@@ -1,0 +1,92 @@
+{%include 'userheader.html'%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sort Products by Category</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #888;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        select {
+            padding: 8px;
+            font-size: 16px;
+        }
+        .filter {
+            margin-bottom: 20px;
+        }
+    </style>
+    <script>
+        function validateCategorySelection() {
+            const select = document.getElementById('type');
+            const selectedValue = select.value;
+
+            // Optional: Alert if you want to restrict empty selection
+            // if (selectedValue === "") {
+            //     alert("Please select a category.");
+            //     return false;
+            // }
+
+            // You can do other validations here if needed
+            return true; // Allow submission
+        }
+    </script>
+</head>
+<body>
+
+    <h2>Sort Products by Category</h2>
+
+    <form method="get" class="filter" onsubmit="return validateCategorySelection();">
+        <label for="type">Select Category:</label>
+        <select name="type" id="type" onchange="this.form.submit()">
+            <option value="">All Categories</option>
+            {% for t in types %}
+                <option value="{{ t.id }}" {% if selected_type == t.id %}selected{% endif %}>
+                    {{ t.type_name }}
+                </option>
+            {% endfor %}
+        </select>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in products %}
+            <tr>
+                <td>{{ i.product_name }}</td>
+                <td>{{ i.type.type_name }}</td>
+                <td>{{ i.price }}</td>
+                <td>{{ i.details }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">No products found for the selected category.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>
+
+{%include 'footer.html'%}

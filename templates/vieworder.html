@@ -1,0 +1,105 @@
+{%include 'shopheader.html'%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>View Orders</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f2f4f8;
+      padding: 30px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+    }
+
+    table {
+      width: 95%;
+      margin: 0 auto;
+      border-collapse: collapse;
+      background-color: #fff;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #3498db;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>All Order Details</h1>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Order ID</th>
+        <th>User</th>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Amount</th>
+        <th>Total</th>
+        <th>Status</th>
+        <th>Date/Time</th>
+        <th colspan="2">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for o in orders%}
+      <tr>
+        <td>{{ o.id }}</td>
+        <td>{{ o.order_master.user.first_name}}</td>
+        <td>{{ o.product.product_name }}</td>
+        <td>{{ o.quantity }}</td>
+        <td>{{ o.amount }}</td>
+        <td>{{ o.order_master.total }}</td>
+        <td>{{ o.order_master.status }}</td>
+        <td>{{ o.order_master.date_time }}</td>
+        {% if o.order_master.status == 'Assigned-db' %}
+          {{ o.status }}
+        {% else %}
+          <td><a href="/oaccepted/{{o.order_master_id}}">Accepted</a></td>
+          <td><a href="/orejected/{{o.order_master_id}}">Rejected</a></td>
+          <td><a href="/chatsho/{{i.id}}">Chat</a></td>
+
+        {% endif %}
+      </tr>
+      {% empty %}
+      <tr><td colspan="9">No orders found.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+<script>
+  // Confirm before Accept or Reject actions
+  document.querySelectorAll('a[href^="/oaccepted/"], a[href^="/orejected/"]').forEach(link => {
+    link.addEventListener('click', function(event) {
+      const action = this.href.includes('/oaccepted/') ? 'accept' : 'reject';
+      if (!confirm(`Are you sure you want to ${action} this order?`)) {
+        event.preventDefault();
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
+{%include 'footer.html'%}

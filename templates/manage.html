@@ -1,0 +1,194 @@
+{%include 'shopheader.html'%}
+
+
+
+
+<br><br><br><br>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Products</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f4f8;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .form-box, .table-box {
+            background: white;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        form label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        form input, form select, form textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+
+        form button {
+            margin-top: 15px;
+            padding: 10px 15px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        form button:hover {
+            background: #0056b3;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        img {
+            height: 80px;
+        }
+    </style>
+</head>
+<body>
+
+
+<div class="container">
+    <h2>Manage Products</h2>
+
+{%if o%}
+<div class="form-box">
+        <h3>Edit Product</h3>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <label for="type">Type:</label>
+            <select name="type" id="type" required >
+                <option value="">select type</option>
+                {% for i in t %}
+                    <option value="{{ i.id }}">{{ i.type_name }}</option>
+                {% endfor %}
+            </select>
+
+
+            <label for="product_name">Product Name:</label>
+            <input type="text" name="product_name" id="product_name" required value="{{o.product_name}}">
+
+            <label for="details">Details:</label>
+            <input type="text" name="details" id="details" required value="{{o.details}}">
+
+            <label for="price">Price:</label>
+            <input type="number" name="price" step="0.01" required value="{{o.price}}">
+
+            <label for="img">Image</label>
+            <input type="file" name="img" id="image" required value="{{o.image}}">
+
+            <button type="submit" name="update">Add Product</button>
+        </form>
+    </div>
+{%else%}
+<div class="form-box">
+        <h3>Add Product</h3>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <label for="type">Type:</label>
+            <select name="type" id="type" required>
+                <option value="">Select Type</option>
+                {% for i in t %}
+                    <option value="{{ i.id }}">{{ i.type_name }}</option>
+                {% endfor %}
+            </select>
+
+
+            <label for="product_name">Product Name:</label>
+            <input type="text" name="product_name" id="product_name" required>
+
+            <label for="details">Details:</label>
+            <input type="text" name="details" id="details" required>
+
+            <label for="price">Price:</label>
+            <input type="number" name="price" step="0.01" required>
+
+            <label for="img">Image</label>
+            <input type="file" name="img" id="" required>
+
+            <button type="submit" name="submit" value="submit">Add Product</button>
+        </form>
+    </div>
+{%endif%}
+
+    <div class="table-box">
+        <h3>Product List</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Product Name</th>
+                    <th>Type</th>
+                    <th>Details</th>
+                    <th>Price</th>
+                    <th colspan="2">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for products in ss%}
+                <tr>
+                    <td><img src="/static/media/{{products.image}}" alt="Product Image"></td>
+                    <p></p>
+                    <td>{{ products.shop.product.product_name}}</td>
+                    <td>{{ products.type.type_name}}</td>
+                    <td>{{ products.details}}</td>
+                    <td>{{ products.price}}</td>
+                    <td><a href="/edite/{{products.id}}">Update</a></td>
+                    <td><a href="/deletep/{{products.id}}">Delete</a></td>
+
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" style="text-align:center;">No products available.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>
+{%include 'footer.html'%}
