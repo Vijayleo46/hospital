@@ -15,6 +15,7 @@ downloads/
 eggs/
 .eggs/
 lib/
+templates/pycharm.rar
 !flutter_code/lib/
 lib64/
 parts/
