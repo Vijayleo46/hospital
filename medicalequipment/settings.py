@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-oq_@p9beq4+n*zcxtzji_hhd2qib+op8)_4m$+*5wqdy-3bxe^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['your-app.onrender.com', 'localhost']
 
 
 # Application definition
@@ -148,7 +148,7 @@ SECRET_KEY = 'django-insecure-oq_@p9beq4+n*zcxtzji_hhd2qib+op8)_4m$+*5wqdy-3bxe^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['your-app.onrender.com', 'localhost']
 
 
 # Application definition
@@ -196,16 +196,10 @@ WSGI_APPLICATION = 'medicalequipment.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME':'medical',
-        'USER':'root',
-        'PASSWORD':'',
-        'PORT':3306,
-        'HOST':'localhost',
-    }
+    'default': dj_database_url.config(
+        default=os.environ.get('DATABASE_URL')
+    )
 }
 
 
@@ -244,6 +238,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+MIDDLEWARE.insert(1, "whitenoise.middleware.WhiteNoiseMiddleware")
 
 STATICFILES_DIRS = [BASE_DIR, 'static']
 
