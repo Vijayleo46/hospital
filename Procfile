@@ -1,1 +1,1 @@
-gunicorn hospital.wsgi
+gunicorn  medicalequipment.wsgi

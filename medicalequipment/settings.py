@@ -28,7 +28,12 @@ SECRET_KEY = 'django-insecure-oq_@p9beq4+n*zcxtzji_hhd2qib+op8)_4m$+*5wqdy-3bxe^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['your-app.onrender.com', 'localhost']
+ALLOWED_HOSTS = [
+    "hospital-2-p68v.onrender.com",  # your Render domain
+    "localhost",
+    "127.0.0.1",
+]
+
 
 
 # Application definition
@@ -144,7 +149,11 @@ SECRET_KEY = 'django-insecure-oq_@p9beq4+n*zcxtzji_hhd2qib+op8)_4m$+*5wqdy-3bxe^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['your-app.onrender.com', 'localhost']
+ALLOWED_HOSTS = [
+    "hospital-2-p68v.onrender.com",  # your Render domain
+    "localhost",
+    "127.0.0.1",
+]                                
 
 
 # Application definition
